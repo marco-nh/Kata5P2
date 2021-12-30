@@ -1,5 +1,5 @@
 
-package kata5p2;
+package kata5p2.main;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,8 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 
 import java.util.List;
+import kata5p2.model.Histogram;
+import kata5p2.model.Mail;
+import kata5p2.view.HistogramDisplay;
+import kata5p2.view.MailHistogramBuilder;
+import kata5p2.view.MailListReaderBD;
 
 public class Kata5P2 {
 
@@ -71,8 +77,14 @@ public class Kata5P2 {
     }
 
     public static void main(String[] args) {
-       selectAll();
-       createNewTable();
+       List<Mail> newMailArray = new ArrayList<Mail>();
+       Histogram<String> histogram = new Histogram<String>();
+       for (Mail mail : MailListReaderBD.read()) {
+           newMailArray.add(mail);
+       }
+       histogram = MailHistogramBuilder.build(newMailArray);
+       HistogramDisplay histoDisplay = new HistogramDisplay(histogram);
+       histoDisplay.execute();
     }
     
 }
